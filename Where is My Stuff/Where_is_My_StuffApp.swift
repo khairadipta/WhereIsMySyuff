@@ -11,7 +11,7 @@ import SwiftUI
 struct Where_is_My_StuffApp: App {
     var body: some Scene {
         WindowGroup {
-            GameView()
+            GameView(beaconProximity: .constant(.unknown))
         }
     }
 }

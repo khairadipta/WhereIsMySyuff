@@ -7,41 +7,37 @@
 
 import SwiftUI
 
-//struct ContentView: View {
-//    @State private var isShowingCamera = false
-//    @State private var image: UIImage?
-//
-//    var body: some View {
-//        VStack {
-//            if let image = image {
-//                Image(uiImage: image)
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 300, height: 300)
-//            }
-//
-//            Button(action: {
-//                self.isShowingCamera = true
-//            }) {
-//                Text("Open Camera")
-//                    .padding()
-//                    .background(Color.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//        }
-//        .sheet(isPresented: $isShowingCamera) {
-//            CameraView(cameraController: <#CameraController#>, isShown: self.$isShowingCamera, image: self.$image)
-//        }
-//    }
-//}
-//
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView: View {
+    @StateObject var beaconManager = BeaconManager()
+    @State private var circleColor: Color = .white
 
-//#Preview {
-//    ContentView()
-//}
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(circleColor)
+                .frame(width: 200, height: 200) // Adjust size as needed
+            Text("Hello, World!")
+                .padding()
+        }
+        .onReceive(beaconManager.$proximity) { proximity in
+            switch proximity {
+            case .immediate:
+                circleColor = .green
+            case .near:
+                circleColor = .yellow
+            case .far:
+                circleColor = .red
+            case .unknown:
+                circleColor = .gray
+            @unknown default:
+                circleColor = .blue // Handle any future unknown cases
+            }
+        }
+        
+        // Pass beacon proximity state to GameView
+        GameView(beaconProximity: $beaconManager.proximity)
+    }
+}
+
+
+

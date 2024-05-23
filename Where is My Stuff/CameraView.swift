@@ -26,15 +26,17 @@ struct CameraView: UIViewControllerRepresentable {
             case .unknown:
                 break
             case .portrait:
-                previewLayer.connection?.videoOrientation = .portrait
-
+                previewLayer.connection?.videoRotationAngle = 0
+                // Home button on top
             case .portraitUpsideDown:
-                previewLayer.connection?.videoOrientation = .portraitUpsideDown
-
+                previewLayer.connection?.videoRotationAngle = 270
+                // Home button on right
             case .landscapeLeft:
-                previewLayer.connection?.videoOrientation = .landscapeLeft
+                previewLayer.connection?.videoRotationAngle = 0
+                // Home button on left
             case .landscapeRight:
-                previewLayer.connection?.videoOrientation = .landscapeRight
+                previewLayer.connection?.videoRotationAngle = 0
+                
             default:
                 break
             }
