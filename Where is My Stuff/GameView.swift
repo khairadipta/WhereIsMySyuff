@@ -130,8 +130,7 @@ struct GameView: View {
                     Text("""
 Message....................
 .....................
-tytytytytytytytyty
-lololol
+hello gys
 """)
                     .multilineTextAlignment(.leading)
                     .offset(x: 0, y: -30)
