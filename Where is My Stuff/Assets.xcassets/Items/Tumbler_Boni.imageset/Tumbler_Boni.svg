@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 291 490">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke: #5c5554;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 8px;
+      }
+
+      .cls-1, .cls-5 {
+        fill: #fffefe;
+      }
+
+      .cls-2 {
+        fill: #5c5554;
+      }
+
+      .cls-3 {
+        fill: #d9d9d9;
+      }
+
+      .cls-4 {
+        fill: #71cde6;
+      }
+
+      .cls-5 {
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <g id="BoniTumbler">
+    <g>
+      <rect class="cls-3" x="4" y="12" width="279" height="37"/>
+      <polygon class="cls-4" points="274 202 17 202 8 49 283 49 274 202"/>
+      <polygon class="cls-2" points="274 202 17 202 33 214 258 214 274 202"/>
+      <path class="cls-1" d="M218.4,486H72.97c-10.71,0-19.61-8.24-20.44-18.92l-19.54-253.08h225l-19.57,253.46c-.81,10.46-9.54,18.54-20.03,18.54Z"/>
+      <path class="cls-2" d="M287,46h-.56c-9.65,0-17.65-7.48-18.3-17.1l-3.14-16.9-90,.06V4h112v42Z"/>
+    </g>
+    <g>
+      <circle class="cls-5" cx="102.46" cy="133.09" r="25.8"/>
+      <circle class="cls-5" cx="152.01" cy="125.1" r="37.9"/>
+      <circle class="cls-5" cx="191.51" cy="140.4" r="18.49"/>
+    </g>
+  </g>
+</svg>
