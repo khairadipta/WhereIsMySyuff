@@ -24,6 +24,10 @@ struct GameView: View {
     @State var circleColor: Color = .red
     @StateObject private var cameraController = CameraController()
     @State private var showItem: Bool = false // Added state variable to show/hide item
+    @State private var showSuccessPage: Bool = false
+    @State private var itemCount: Int = 0
+    @State private var messageText: String = ""
+    @State private var messageImage: String = "Boni_Worry"
     
     var body: some View {
         ZStack {
@@ -31,9 +35,9 @@ struct GameView: View {
             GridBackground()
             // Camera view should be always on
             CameraView(cameraController: cameraController, cornerRadius: 20, borderWidth: 8, borderColor: Color.wmsDarkBrown)
-                .frame(width: 500, height: 530)
+                .frame(width: 850, height: 530)
                 .shadow(color: Color.wmsBlueDark, radius: 0, x: 8, y: 8)
-                .offset(x: -140, y:15)
+                .offset(x: 0, y:15)
                 .padding()
                 .onAppear {
                     //                    cameraController.session?.startRunning()
@@ -53,7 +57,7 @@ struct GameView: View {
                     .offset(x: 0, y: 0) // Adjust the position as needed
             }
             // Offset for the circle indicator
-            .offset(x:70, y:-570)
+            .offset(x:380, y:-120)
             
             .onReceive(beaconManager.$proximity) { proximity in
                 switch proximity {
@@ -124,157 +128,96 @@ struct GameView: View {
                     }
                 }
                 
-                .offset(x: 0, y: -70)
+                .offset(x: -35, y: -70)
             
-            VStack {
+            HStack {
                 ZStack {
                     //Target Item: Boni's Tumbler Box
-                    Image("Rectangle_TargetItem")
+                    Image("Rectangle_TargetItem_small")
                         .resizable()
                         .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                         .frame(width: 90, height: 90, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    
                     //                .offset(x: 330, y: -450)
                         .shadow(color: Color.wmsBlueDark, radius: 0, x: 5, y: 5)
-                    Image("Button_QuestionMark")
-                        .resizable()
-                        .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .offset(x: 120, y: -30)
-                        .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
+//                    Image("Button_QuestionMark")
+//                        .resizable()
+//                        .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+//                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//                        .offset(x: 120, y: -30)
+//                        .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
                     Image("TumblerMissing")
                         .resizable()
                         .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                        .frame(width: 55, height: 55, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 30, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .rotationEffect(Angle(degrees: -15))
-                        .offset(x: -100, y: 0)
-                        .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                    Text("Boni’s tumbler")
-                        .offset(x: 20, y: -30)
+                        .offset(x: 0, y: -7)
+//                        .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
+                    
+                    Text("?")
+                        .offset(x: 0, y: -7)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.wmsDarkBrown)
-                        .font(.custom("Poppins-Bold", size: 20))
-                        .padding(.top, 60)
+                        .font(.custom("Poppins-ExtraBold", size: 30))
+                        .padding(.top, 0)
+                    
+                    ZStack {
+                        Image("InfoButton_TumblerCount")
+                            .resizable()
+                            .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+  // Item Counter
+                    Text("\(itemCount)/1") // Must be linked to collect item
+                        .offset(x: 0, y: 0)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.wmsDarkBrown)
+                        .font(.custom("Poppins-ExtraBold", size: 22))
+                        .padding(.top, 0)
+                    }
+                    .offset(x: 0, y: 50)
                 }
-            
-                Spacer().frame(height: 90)
+                .offset(x: -130, y: -10)
+                
+                
+                Spacer().frame(height: 500)
                 
                 ZStack {
-                    // Boni Message box
-                    Image("MessageBox")
+// Boni Message box
+                    Image("MessageBox_Long")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 270, height: 100, alignment: .center)
                         .shadow(color: Color.wmsYellow, radius: 0, x: 5, y: 5)
-                    Text("""
-Message....................
-.....................
-hello gys
-""")
+                    Text(messageText)
                     .multilineTextAlignment(.leading)
-                    .offset(x: 0, y: -30)
-                    .frame(width: 210, height: 120, alignment: .leading)
+                    .offset(x: 0, y: -10)
+                    .frame(width: 410, height: 40, alignment: .center)
                     .foregroundColor(.wmsDarkBrown)
                     .font(.custom("Poppins-SemiBold", size: 16))
                     
                     Image("Sender_Boni")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50, alignment: .center)
+                        .frame(width: 40, height: 40, alignment: .center)
                     //                .offset(x: 270, y: -470)
-                        .offset(x: -70, y: -110)
+                        .offset(x: -170, y: -45)
                         .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                    Image("Boni_SmileOpen")
+                    Image(messageImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 80, height: 80, alignment: .center)
+                        .frame(width: 70, height: 70, alignment: .center)
                     //                .offset(x: 420, y: -270)
-                        .offset(x:90, y:60)
-                        .shadow(color: Color.wmsBlueDark, radius: 0, x: 3, y: 3)
+                        .offset(x:170, y:30)
+                        .shadow(color: Color.wmsBlueDark, radius: 0, x: 2, y: 2)
                     
                 }
-                
-            
+                .offset(x: -230, y: 0)
+              
                 Spacer().frame(height: 80)
                 
-            
-                VStack {
-                    // Button Collect and Cancel
-                    Button(action: {}){
-                        Image("Button_Collect")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 70, height: 70, alignment: .center)
-                        //  .offset(x: 0, y: 0)
-                            .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                    }.buttonStyle(ScaleButtonStyle())
-                    
-                    Button(action: {}){
-                        Image("Button_Cancel")
-                            .resizable()
-                            .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                            .frame(width: /*@START_MENU_TOKEN@*/70/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/70/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            .offset(x: 0, y: 0)
-                            .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                    }
-                    
-                    
-                }
+
             }
-            
-            .offset(x: 330, y: -50)
-// Gameplay
-            if showItem { // Conditionally display the item when showItem is true
-                ZStack {
-//                    Color.black.opacity(0.5)
-//                        .edgesIgnoringSafeArea(.all)
-                    VStack {
-                        ZStack {
-                            Image("Tumbler_Boni")
-                                .resizable()
-                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                .frame(width: 100, height: 100)
-                            
-                            Text("Is this Boni's Tumbler?")
-                                .foregroundColor(.wmsDarkBrown)
-                                .font(.custom("Poppins-Bold", size: 20))
-                                .padding()
-                        }
-                        HStack {
-                            Button(action: {
-                                // Handle collect action
-                                print("Collected the item")
-                            }) {
-                                Image("Button_Collect")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 70, height: 70, alignment: .center)
-                                    .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                            }
-                            .buttonStyle(ScaleButtonStyle())
-                            
-                            Button(action: {
-                                // Handle cancel action
-                                showItem = false
-                            }) {
-                                Image("Button_Cancel")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 70, height: 70, alignment: .center)
-                                    .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
-                            }
-                            .buttonStyle(ScaleButtonStyle())
-                        }
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                    
-                    
-                    //        .padding(.all)
-                    
-                }
-                
+            .offset(x: 330, y: -240)
                 //    private func circleColor(for proximity: CLProximity) -> Color {
                 //        switch proximity {
                 //        case .immediate:
@@ -287,16 +230,133 @@ hello gys
                 //            return .gray
                 //
                 //        }
+                
+// New Gameplay
+                
+            }
+// Conditionally show the item view
+            if showItem {
+                ShowItemView(onTap: handleItemTap)
+            }
+            
+            // Conditionally show the success page view
+            if showSuccessPage {
+                SuccessPageView(onReplay: replayGame)
             }
         }
-        
-       
-            }
+        .onReceive(beaconManager.$proximity) { proximity in
+            handleProximityChange(proximity)
         }
     }
+    
+    private func handleProximityChange(_ proximity: CLProximity) {
+        switch proximity {
+        case .immediate:
+            messageText = "That's my tumbler!"
+            messageImage = "Boni_Happy"
+            showItem = true // Show item when proximity is immediate
+            print("here")
+        case .near:
+            messageText = "I think it's around here!"
+            messageImage = "Boni_SmileOpen"
+            showItem = false // Hide item when proximity is near
+            print("near")
+        case .far:
+            messageText = "I've been here before but not too sure"
+            messageImage = "Boni_Worry"
+            showItem = false // Hide item when proximity is far
+            print("far")
+        case .unknown:
+            messageText = "I don't think it's here"
+            messageImage = "Boni_Worry"
+            showItem = false // Hide item when proximity is unknown
+            print("undetected")
+        @unknown default:
+            messageText = "I don't think it's here"
+            messageImage = "Boni_Worry"
+            showItem = false // Hide item when proximity is unknown
+        }
+    }
+    
+    private func handleItemTap() {
+        withAnimation {
+            showItem = false
+            showSuccessPage = true
+            itemCount = 1
+        }
+    }
+    
+    private func replayGame() {
+        withAnimation {
+            showSuccessPage = false
+            itemCount = 0
+            // Reset other game state if needed
+        }
+    }
+}
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
         GameView(beaconProximity: .constant(.unknown))
+    }
+}
+struct ShowItemView: View {
+    var onTap: () -> Void
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.5)
+                .edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("Boni's Tumbler")
+                    .foregroundColor(.white)
+                    .font(.custom("Poppins-Bold", size: 20))
+                    .padding()
+                Spacer().frame(height: 40)
+                Image("Tumbler_Boni")
+                    .resizable()
+                    .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                    .frame(width: 100, height: 100)
+                    .onTapGesture {
+                        onTap()
+                        
+            
+                    }
+            }
+//            .padding()
+////            .background(Color.white)
+//            .cornerRadius(20)
+//            .border(Color.wmsDarkBrown)
+//            .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
+        }
+    }
+}
+
+struct SuccessPageView: View {
+    var onReplay: () -> Void
+
+    var body: some View {
+        VStack {
+            Text("You found Boni's Tumbler!")
+                .font(.custom("Poppins-Bold", size: 24))
+                .foregroundColor(.wmsDarkBrown)
+                .padding()
+            Button(action: {
+                onReplay()
+            }) {
+                Text("Play Again")
+                    .font(.custom("Poppins-Bold", size: 18))
+                    .padding()
+                    .background(Color.wmsYellow)
+                    .foregroundColor(.white)
+                    .border(Color.wmsDarkBrown)
+                    .cornerRadius(100)
+                    .shadow(color: Color.wmsDarkBrown, radius: 0, x: 5, y: 5)
+            }
+        }
+        .padding()
+        .background(Color.wmsWhite)
+        .cornerRadius(20)
+        .shadow(radius: 10)
     }
 }
